@@ -1,17 +1,6 @@
-# ctrans
-Basic constraint transformation library
-
-# Status
-[![Build Status](https://travis-ci.org/julianthome/ctrans.svg?branch=master)]
-(https://travis-ci.org/julianthome/ctrans.svg?branch=master)  [![codecov]
-(https://codecov.io/gh/julianthome/ctrans/branch/master/graph/badge.svg)]
-(https://codecov.io/gh/julianthome/ctrans) 
-
-# Licence
-
 The MIT License (MIT)
 
-Copyright (c) 2017 Julian Thome <julian.thome.de@gmail.com>
+Copyright (c) 2016 Julian Thome <julian.thome.de@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -30,4 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
