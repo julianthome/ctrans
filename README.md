@@ -3,10 +3,10 @@ Basic constraint transformation library
 
 # Status
 [![Build Status](https://travis-ci.org/julianthome/ctrans.svg?branch=master)]
-(https://travis-ci.org/julianthome/ctrans.svg?branch=master)  [![codecov]
+(https://travis-ci.org/julianthome/ctrans.svg?branch=master) [![codecov]h
 (https://codecov.io/gh/julianthome/ctrans/branch/master/graph/badge.svg)]
 (https://codecov.io/gh/julianthome/ctrans) 
-
+ 
 # Licence
 
 The MIT License (MIT)
