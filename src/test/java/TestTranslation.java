@@ -25,6 +25,7 @@
  **/
 
 import com.julianthome.ctrans.CTrans;
+import com.julianthome.ctrans.TranslationTarget;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class TestTranslation {
                 "and X9)" +
                 ") or X10)";
 
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
 
         d.translate(formula);
         System.out.println();
@@ -59,7 +60,7 @@ public class TestTranslation {
 
         String formula = "XXXXXXXXXXXXX1";
 
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
 
         d.translate(formula);
         System.out.println();
@@ -70,7 +71,7 @@ public class TestTranslation {
 
         String formula = "not XXXXXXXXXXXXX1";
 
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
 
         d.translate(formula);
         System.out.println();
@@ -79,7 +80,7 @@ public class TestTranslation {
     @Test
     public void testConj0() {
         String formula = "(A or B) and (C and D)"; //"A and C or B and C"
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         d.translate(formula);
         System.out.println();
     }
@@ -87,7 +88,7 @@ public class TestTranslation {
     @Test
     public void testImplication() {
         String formula = "(a implies d)";
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         d.translate(formula);
         System.out.println();
     }
@@ -95,7 +96,7 @@ public class TestTranslation {
     @Test
     public void testNegation0() {
         String formula = "not not not not a";
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         d.translate(formula);
         System.out.println();
     }
@@ -103,7 +104,7 @@ public class TestTranslation {
     @Test
     public void testNegation1() {
         String formula = "not (a and not b)";
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         d.translate(formula);
         System.out.println();
     }
@@ -111,7 +112,7 @@ public class TestTranslation {
     @Test
     public void testNegation2() {
         String formula = "not (a or b)";
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         d.translate(formula);
         System.out.println();
     }
@@ -119,7 +120,7 @@ public class TestTranslation {
     @Test
     public void testXor() {
         String formula = "a xor b";
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         Ast out = d.translate(formula);
         System.out.println();
     }
@@ -127,7 +128,7 @@ public class TestTranslation {
     @Test
     public void testImpl() {
         String formula = "(a and c) implies b";
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         Ast out = d.translate(formula);
         System.out.println();
     }
@@ -147,14 +148,14 @@ public class TestTranslation {
                 "( XXXXXXXXXXXXXXXXXXXXXX169  and  XXXXXXXXXXXXXXXXXXXXXX170 " +
                 "))))";
 
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         Ast out = d.translate(s);
         System.out.println();
     }
     
     public void testNegation3(){
         String s = "(not X14) and ( X35  or  X36 )";
-        CTrans d = new CTrans(gfile);
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         Ast out = d.translate(s);
         System.out.println();
     }
@@ -162,8 +163,8 @@ public class TestTranslation {
     @Test
     public void testNegation4(){
         String s = "( a1  and  a2 ) or ((not  a3 ) and ( a4  or  a5 ))";
-        
-        CTrans d = new CTrans(gfile);
+
+        CTrans d = new CTrans(gfile, TranslationTarget.DNF);
         Ast out = d.translate(s);
         System.out.println();
     }

@@ -27,12 +27,14 @@
 
 package com.julianthome.ctrans.translator;
 
-import com.julianthome.ctrans.*;
+import com.julianthome.ctrans.Edge;
+import com.julianthome.ctrans.Expression;
+import com.julianthome.ctrans.ExpressionGraph;
+import com.julianthome.ctrans.TranslationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 
 
@@ -46,7 +48,7 @@ public class ImplicationTranslator extends TranslationHandler {
     }
 
     @Override
-    public void translate(ExpressionGraph eg, Expression impl, Queue<Expression> todolist) {
+    public void translate(ExpressionGraph eg, Expression impl) {
         List<Expression> ex = eg.getParamtersFor(impl);
         Set<Edge> outgoing = eg.outgoingEdgesOf(impl);
 
@@ -61,12 +63,8 @@ public class ImplicationTranslator extends TranslationHandler {
         Expression or = eg.addExpression(Expression.Kind.OR, np0, ex1);
 
 
-        todolist.add(np0);
-        todolist.add(or);
-
         for(Edge e :outgoing) {
             eg.addEdge(or, e.getTarget(), e.getSequence());
-            todolist.add(e.getTarget());
         }
 
         eg.removeVertex(impl);

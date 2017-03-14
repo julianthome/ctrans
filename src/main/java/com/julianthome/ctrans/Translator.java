@@ -34,78 +34,87 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public enum Translator {
+public class Translator {
 
-    INSTANCE;
-
-    final static Logger LOGGER = LoggerFactory.getLogger(CTrans.class);
+    final static Logger LOGGER = LoggerFactory.getLogger(Translator.class);
 
     static Set<TranslationHandler> first = new LinkedHashSet<>();
     static Set<TranslationHandler> second = new LinkedHashSet<>();
 
 
-    static {
+    public Translator(TranslationTarget target) {
         first.add(new XorTranslator());
         first.add(new ImplicationTranslator());
-        
         second.add(new NegationTranslator());
-        second.add(new ConjunctionTranslator());
+
+        if(target == TranslationTarget.DNF) {
+            second.add(new ConjunctionTranslator());
+        } else {
+            // not yet implemented
+            assert false;
+        }
     }
 
+    private boolean hasActiveHandler(Set<TranslationHandler> s,
+                                                ExpressionGraph eg, Expression e) {
+        return s.stream().filter(t -> t.isActive(eg, e))
+                .count() > 0;
+    }
 
-
-    public TranslationHandler getActiveHandler(Set<TranslationHandler> s, 
-    		ExpressionGraph eg, Expression e) {
+    private Pair<Expression, TranslationHandler> getActiveHandler
+            (Set<TranslationHandler> s,
+                                               ExpressionGraph eg, Expression e) {
 
         //LOGGER.debug("get active handler");
-        Set<TranslationHandler> ret = s.stream().filter(t -> t.isActive(eg,e))
+        Set<TranslationHandler> ret = s.stream().filter(t -> t.isActive(eg, e))
                 .collect(Collectors
                         .toSet());
 
-        if(ret.size() >= 1) {
-            return ret.iterator().next();
+        if (ret.size() >= 1) {
+            return new Pair(e, ret.iterator().next());
         } else {
             return null;
         }
     }
 
-    
-    public void translate(ExpressionGraph eg) {
-    	loop(eg, first);
-    	// CN contains only disjunction, conjunction or negation
-    	loop(eg, second);
+    private Pair<Expression, TranslationHandler> getNext
+            (ExpressionGraph eg, Set<TranslationHandler> s) {
+
+        try {
+            return eg.vertexSet().stream().filter(
+                    e -> hasActiveHandler(s, eg, e)
+            ).map(e -> getActiveHandler(s, eg, e)).findFirst().get();
+        } catch(NoSuchElementException e) {
+            return null;
+        }
+
     }
+
+
+    public void translate(ExpressionGraph eg) {
+        loop(eg, first);
+        // CN contains only disjunction, conjunction or negation
+        loop(eg, second);
+    }
+
+
 
     private void loop(ExpressionGraph eg, Set<TranslationHandler> s) {
 
         LOGGER.debug("Translate");
 
-        Queue<Expression> todoList = new LinkedList<>();
-        todoList.addAll(eg.vertexSet());
+        Pair<Expression, TranslationHandler> nxt = null;
 
-
-        while(!todoList.isEmpty()) {
-            Expression n = todoList.poll();
-
-            if(!eg.containsVertex(n))
-                continue;
-
-            TranslationHandler th = getActiveHandler(s,eg,n);
-
-            if(th != null) {
-                LOGGER.debug("translate with {}"+ th.toString());
-                th.translate(eg, n, todoList);
-            }
+        while((nxt = getNext(eg, s)) != null) {
+            nxt.getSecond().translate(eg,nxt.getFirst());
         }
 
     }
-
 
 
 }

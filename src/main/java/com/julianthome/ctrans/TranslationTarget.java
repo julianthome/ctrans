@@ -26,68 +26,8 @@
 
 package com.julianthome.ctrans;
 
-public class Expression {
 
-    private int id = 0;
-
-    public static int i = 0;
-
-    public enum Kind {
-        ATOM(""),
-        AND("and"),
-        OR("or"),
-        XOR("xor"),
-        IMPLIES("implies"),
-        NEGATION("not");
-
-        private String lbl = "";
-        Kind(String lbl) {
-            this.lbl = lbl;
-        }
-    }
-
-
-    private boolean negated = false;
-    private Kind kind = Kind.ATOM;
-
-    private String lbl = "";
-
-    public Expression(Kind kind) {
-        this.kind = kind;
-        this.id = i++;
-        this.lbl = kind.lbl;
-    }
-
-
-    public Expression(String lbl) {
-        this.kind = Kind.ATOM;
-        this.id = i++;
-        this.lbl = lbl;
-    }
-
-
-    public int getId() {
-        return this.id;
-    }
-
-    @Override
-    public String toString() {
-        if(this.getKind() == Kind.ATOM)
-            return this.lbl;
-        return this.kind.lbl;
-    }
-
-    public Kind getKind() {
-        return this.kind;
-    }
-
-    public void setKind(Kind kind) {
-        this.kind = kind;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-
-    }
+public enum TranslationTarget {
+    CNF, /** not yet implemented **/
+    DNF
 }

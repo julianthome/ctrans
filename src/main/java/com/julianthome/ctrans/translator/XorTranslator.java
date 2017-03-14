@@ -26,12 +26,14 @@
 
 package com.julianthome.ctrans.translator;
 
-import com.julianthome.ctrans.*;
+import com.julianthome.ctrans.Edge;
+import com.julianthome.ctrans.Expression;
+import com.julianthome.ctrans.ExpressionGraph;
+import com.julianthome.ctrans.TranslationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 
 
@@ -45,7 +47,7 @@ public class XorTranslator extends TranslationHandler {
     }
 
     @Override
-    public void translate(ExpressionGraph eg, Expression xor, Queue<Expression> todolist) {
+    public void translate(ExpressionGraph eg, Expression xor) {
         List<Expression> ex = eg.getParamtersFor(xor);
         Set<Edge> outgoing = eg.outgoingEdgesOf(xor);
 
@@ -68,7 +70,5 @@ public class XorTranslator extends TranslationHandler {
         for(Edge out : outgoing){
             eg.addEdge(nand, out.getTarget(),out.getSequence());
         }
-
-        addToTodoList(todolist, ex0, ex1, first, nex0, nex1, second, nand);
     }
 }

@@ -26,17 +26,8 @@
 
 package com.julianthome.ctrans;
 
-import java.util.Arrays;
-import java.util.Queue;
-
 public abstract class TranslationHandler {
     public abstract boolean isActive(ExpressionGraph eg, Expression e);
-    public abstract void translate(ExpressionGraph eg, Expression e,
-                              Queue<Expression>
-            todolist);
+    public abstract void translate(ExpressionGraph eg, Expression e);
 
-
-    protected void addToTodoList(Queue<Expression> todolist, Expression ... e) {
-        todolist.addAll(Arrays.asList(e));
-    }
 }

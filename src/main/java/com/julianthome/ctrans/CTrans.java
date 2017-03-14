@@ -44,18 +44,19 @@ public class CTrans {
     final static Logger LOGGER = LoggerFactory.getLogger(CTrans.class);
 
     private GenericParser gp = null;
-    DefaultTreeListener dlist = null;
+    private DefaultTreeListener dlist = null;
+    private Translator translator = null;
 
+    public CTrans(String grammar, TranslationTarget target) {
 
-    public CTrans(String grammar) {
-
-        LOGGER.debug("load grammar file {}"+ grammar);
+        LOGGER.debug("load grammar file {}" + grammar);
 
         File f = new File(grammar);
         try {
             gp = new GenericParser(f);
         } catch (FileNotFoundException e) {
-            LOGGER.debug(e.getMessage());System.out.println(e.getMessage());
+            LOGGER.debug(e.getMessage());
+            System.out.println(e.getMessage());
             System.exit(-1);
         }
 
@@ -65,11 +66,10 @@ public class CTrans {
         try {
             gp.compile();
         } catch (CompilationException e) {
-        	LOGGER.debug(e.getMessage());System.out.println(e.getMessage());;
+            LOGGER.debug(e.getMessage());
             System.exit(-1);
         }
-
-
+        translator = new Translator(target);
     }
 
 
@@ -82,8 +82,8 @@ public class CTrans {
             gp.parse(formula);
             l = new LogicListener(dlist.getAst());
         } catch (IllegalWorkflowException e) {
-        	System.err.println("DNF transformer- intial parsing error");
-        	return null;
+            System.err.println("DNF transformer- intial parsing error");
+            return null;
         }
 
         System.out.println("AST inital");
@@ -93,14 +93,12 @@ public class CTrans {
             l.process();
             eg = l.getResult();
         } catch (AstProcessorException e) {
-        	System.err.println("DNF transformer- network building error");
-        	return dlist.getAst();
+            System.err.println("DNF transformer- network building error");
+            return dlist.getAst();
         }
 
-   
+        translator.translate(eg);
 
-        Translator.INSTANCE.translate(eg);
-        
         System.out.println("Constraint network");
         System.out.println(eg.toDot());
 
@@ -111,11 +109,11 @@ public class CTrans {
             gp.parse(s);
             dnfast = dlist.getAst();
         } catch (IllegalWorkflowException e) {
-        	System.err.println("DNF transformer- transformation error");
-        	return dlist.getAst();
+            System.err.println("DNF transformer- transformation error");
+            return dlist.getAst();
 
         }
-        
+
         System.out.println("AST DNF");
         System.out.println(dnfast.toDot());
         return dnfast;

@@ -57,7 +57,7 @@ public class ConjunctionTranslator extends TranslationHandler {
     }
 
     @Override
-    public void translate(ExpressionGraph eg, Expression and, Queue<Expression> todolist) {
+    public void translate(ExpressionGraph eg, Expression and) {
         // push conjuntions downward
 
         List<Expression> ex = eg.getParamtersFor(and);
@@ -102,7 +102,6 @@ public class ConjunctionTranslator extends TranslationHandler {
             for(Expression par1 : ex1par){
                 LOGGER.debug("link {} and {}" +  par0.getId() + par1.getId());
                 Expression tmp = eg.addExpression(AND, par0, par1);
-                todolist.add(tmp);
                 if(nex == null)
                     nex = tmp;
                 else
@@ -113,10 +112,7 @@ public class ConjunctionTranslator extends TranslationHandler {
 
         for(Edge o : out) {
             eg.addEdge(nex, o.getTarget(),o.getSequence());
-            addToTodoList(todolist,nex, o.getTarget());
         }
-        
-        todolist.add(nex);
 
         toDel.add(and);
 

@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 
 public class NegationTranslator extends TranslationHandler {
@@ -41,12 +40,20 @@ public class NegationTranslator extends TranslationHandler {
 
 
     @Override
-    public boolean isActive(ExpressionGraph eg, Expression e) {
-        return e.getKind() == Expression.Kind.NEGATION;
+    public boolean isActive(ExpressionGraph eg, Expression negation) {
+
+
+        if(negation.getKind() != Expression.Kind.NEGATION)
+            return false;
+
+        List<Expression> ex = eg.getParamtersFor(negation);
+        Expression param = ex.get(0);
+
+        return param.getKind() != Expression.Kind.ATOM;
     }
 
     @Override
-    public void translate(ExpressionGraph eg, Expression negation, Queue<Expression> todolist) {
+    public void translate(ExpressionGraph eg, Expression negation) {
 
 
         List<Expression> ex = eg.getParamtersFor(negation);
@@ -72,7 +79,6 @@ public class NegationTranslator extends TranslationHandler {
                     for(Edge o : outgoing) {
                         LOGGER.debug("add edge {} {}" +  pin +  o.getTarget());
                         toAdd.add(new Edge(pin,o.getTarget(),o.getSequence()));
-                        addToTodoList(todolist, pin, o.getTarget());
                     }
                 }
 
@@ -80,27 +86,24 @@ public class NegationTranslator extends TranslationHandler {
 
         } else if (param.getKind() == Expression.Kind.AND) {
             // push negation downward
-            pushAndOr(param, eg, Expression.Kind.OR, todolist);
+            pushAndOr(param, eg, Expression.Kind.OR);
 
             for(Edge o : outgoing) {
                 toAdd.add(new Edge(param,o.getTarget(),o.getSequence()));
-                addToTodoList(todolist, param, o.getTarget());
             }
 
 
         } else if (param.getKind() == Expression.Kind.OR) {
             // push negation downward
-            pushAndOr(param, eg, Expression.Kind.AND, todolist);
+            pushAndOr(param, eg, Expression.Kind.AND);
 
             for(Edge o : outgoing) {
                 toAdd.add(new Edge(param,o.getTarget(),o.getSequence()));
-                addToTodoList(todolist, param, o.getTarget());
             }
         }
         for(Edge add : toAdd ){
             LOGGER.debug("src {}" +  add.getSource());
             eg.addEdge(add.getSource(), add.getTarget(),add);
-            addToTodoList(todolist, add.getSource(), add.getTarget());
         }
 
 
@@ -108,7 +111,7 @@ public class NegationTranslator extends TranslationHandler {
     }
 
     private void pushAndOr(Expression param, ExpressionGraph eg, Expression
-            .Kind changeTo, Queue<Expression> todolist) {
+            .Kind changeTo) {
         // push negation downward
         Expression and = param;
         List<Expression> andpars = eg.getParamtersFor(and);
@@ -134,6 +137,5 @@ public class NegationTranslator extends TranslationHandler {
 
         and.setKind(changeTo);
 
-        addToTodoList(todolist, and, nfirst, nsecond);
     }
 }
