@@ -50,7 +50,7 @@ public class TestTranslation {
 
         CTrans d = new CTrans(gfile);
 
-        d.translate(formula,TranslationTarget.DNF);
+        d.translate(formula,TranslationTarget.CNF);
         System.out.println();
     }
 
@@ -82,6 +82,14 @@ public class TestTranslation {
         String formula = "(A or B) and (C and D)"; //"A and C or B and C"
         CTrans d = new CTrans(gfile);
         d.translate(formula,TranslationTarget.DNF);
+        System.out.println();
+    }
+
+    @Test
+    public void testConj1() {
+        String formula = "(A and B) or (C and D)"; //"A and C or B and C"
+        CTrans d = new CTrans(gfile);
+        d.translate(formula,TranslationTarget.CNF);
         System.out.println();
     }
 

@@ -1,8 +1,5 @@
-package com.julianthome.ctrans.translator;
+package com.julianthome.ctrans;
 
-import com.julianthome.ctrans.Edge;
-import com.julianthome.ctrans.Expression;
-import com.julianthome.ctrans.ExpressionGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

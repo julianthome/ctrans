@@ -57,7 +57,7 @@ public class Translator {
             assert target == TranslationTarget.CNF;
 
             if(cnf == null)
-                cnf = new Translator(TranslationTarget.DNF);
+                cnf = new Translator(TranslationTarget.CNF);
 
             return cnf;
         }

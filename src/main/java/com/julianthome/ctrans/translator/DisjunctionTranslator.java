@@ -26,6 +26,7 @@
 
 package com.julianthome.ctrans.translator;
 
+import com.julianthome.ctrans.ConDisjunctionUtils;
 import com.julianthome.ctrans.Expression;
 import com.julianthome.ctrans.ExpressionGraph;
 import com.julianthome.ctrans.TranslationHandler;
@@ -48,10 +49,10 @@ public class DisjunctionTranslator extends TranslationHandler {
 
         LOGGER.debug("is conjunciton active");
 
-        if(e.getKind() == AND) {
+        if(e.getKind() == OR) {
             List<Expression> ex = eg.getParamtersFor(e);
 
-            return ex.stream().filter(x -> x.getKind() == OR)
+            return ex.stream().filter(x -> x.getKind() == AND)
                     .count() > 0;
         }
         return false;
