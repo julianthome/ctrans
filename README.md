@@ -4,6 +4,12 @@ Basic **C**onstraint **Trans**formation library
 # Status
 [![Build Status](https://travis-ci.org/julianthome/ctrans.svg?branch=master)](https://travis-ci.org/julianthome/ctrans.svg?branch=master) [![codecov](https://codecov.io/gh/julianthome/ctrans/branch/master/graph/badge.svg)](https://codecov.io/gh/julianthome/ctrans) [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.github.julianthome/ctrans/badge.svg)](http://www.javadoc.io/doc/com.github.julianthome/ctrans) [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
 
+# Background
+CTrans supports basic transformation rules as explained in [these
+lecture notes](http://resources.mpi-inf.mpg.de/departments/rg1/teaching/autrea-ss10/script/lecture2.pdf). 
+A more comprehensive description can be also found
+[here](http://www.mpi-inf.mpg.de/~weidenb/publications/handbook99small.ps.gz).
+
 # Usage
 
 CTrans is a tool for translating a given boolean expression into CNF or DNF,
