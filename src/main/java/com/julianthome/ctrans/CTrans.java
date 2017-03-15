@@ -39,24 +39,27 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 
-public class CTrans {
+public enum CTrans {
+
+    INSTANCE;
 
     final static Logger LOGGER = LoggerFactory.getLogger(CTrans.class);
 
-    private GenericParser gp = null;
-    private DefaultTreeListener dlist = null;
+    private static GenericParser gp = null;
+    private static DefaultTreeListener dlist = null;
+    private static String gfile = CTrans.class.getClassLoader().getResource
+            ("Logic.g4")
+            .getFile();
 
 
-    public CTrans(String grammar) {
+    static{
+        LOGGER.debug("gfile {}", gfile);
 
-        LOGGER.debug("load grammar file {}" + grammar);
-
-        File f = new File(grammar);
+        File f = new File(gfile);
         try {
             gp = new GenericParser(f);
         } catch (FileNotFoundException e) {
             LOGGER.debug(e.getMessage());
-            System.out.println(e.getMessage());
             System.exit(-1);
         }
 
@@ -76,7 +79,6 @@ public class CTrans {
         ExpressionGraph eg = null;
         LogicListener l = null;
 
-
         try {
             gp.parse(formula);
             l = new LogicListener(dlist.getAst());
@@ -84,9 +86,6 @@ public class CTrans {
             System.err.println("DNF transformer- intial parsing error");
             return null;
         }
-
-        System.out.println("AST inital");
-        System.out.println(dlist.getAst().toDot());
 
         try {
             l.process();
@@ -97,9 +96,6 @@ public class CTrans {
         }
 
         Translator.getInstance(target).translate(eg);
-
-        System.out.println("Constraint network");
-        System.out.println(eg.toDot());
 
         String s = eg.serialize();
 
@@ -113,8 +109,6 @@ public class CTrans {
 
         }
 
-        System.out.println("AST DNF");
-        System.out.println(dnfast.toDot());
         return dnfast;
     }
 

@@ -64,7 +64,7 @@ public class LogicListener extends
 
     @Override
     protected void process(AstNode n) throws AstProcessorException {
-        LOGGER.info("ID " + n.getId() + " " + n.getRule() + " " + n.getLabel());
+        LOGGER.debug("ID " + n.getId() + " " + n.getRule() + " " + n.getLabel());
 
         switch (n.getRule()) {
             case "expression":

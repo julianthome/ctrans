@@ -1,12 +1,70 @@
-# ctrans
-Basic constraint transformation library
+# CTrans
+Basic **C**onstraint **Trans**formation library
 
 # Status
-[![Build Status](https://travis-ci.org/julianthome/ctrans.svg?branch=master)]
-(https://travis-ci.org/julianthome/ctrans.svg?branch=master) [![codecov]
-(https://codecov.io/gh/julianthome/ctrans/branch/master/graph/badge.svg)]
-(https://codecov.io/gh/julianthome/ctrans) 
- 
+[![Build Status](https://travis-ci.org/julianthome/ctrans.svg?branch=master)](https://travis-ci.org/julianthome/ctrans.svg?branch=master) [![codecov](https://codecov.io/gh/julianthome/ctrans/branch/master/graph/badge.svg)](https://codecov.io/gh/julianthome/ctrans) [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.github.julianthome/ctrans/badge.svg)](http://www.javadoc.io/doc/com.github.julianthome/ctrans)[![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)[![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
+
+# Usage
+
+CTrans is a tool for translating a given boolean expression into CNF or DNF,
+respectively. The boolean expression has to satisfy the following context-free
+grammar definition.
+
+```antlr
+grammar Logic;
+
+rule_set : expression EOF ;
+
+conclusion : IDENTIFIER ;
+
+expression
+ : not expression
+ | expression and expression
+ | expression or expression
+ | expression xor expression
+ | expression implies expression
+ | LPAREN expression RPAREN
+ | atom;
+
+atom : IDENTIFIER
+| LPAREN IDENTIFIER RPAREN;
+
+not : 'not';
+and : 'and' ;
+or : 'or' ;
+xor : 'xor';
+implies : 'implies';
+
+LPAREN : '(' ;
+RPAREN : ')' ;
+
+IDENTIFIER : [a-zA-Z_][a-zA-Z_0-9]*;
+
+WS : [ \r\t\n]+ -> skip ;
+```
+
+The following example illustrates how CTrans can be used in order to translate
+a given boolean expression `a implies d`. First, we invoke the method
+`translate()` on the static class `CTrans` that takes as first input the
+expression that we wish to translate, and as second argument the target format
+which can be either `DNF` or `CNF`.  The call to `translate()` will return an
+`Ast` object which is the abstract syntax tree (AST) of translated input
+expression. In the example below `a` is the DNF representation of `a implies b`.
+
+```java
+Ast a = CTrans.INSTANCE.translate("a implies d", TranslationTarget.DNF);
+System.out.println(a.toDot());
+```
+
+For visualizing the abstract syntax tree, the method `toDot()` can be invoked
+on the `Ast` object which will return a String in `dot` format; the AST can
+then be visualized by means of [graphviz](http://www.graphviz.org).  For the
+visualization of the dot files [this script](https://gist.github.com/julianthome/66a31203b9b25493fa2a43889f948212)
+might be helpful. For the example expression, the following AST will be
+generated:
+
+![](https://www.dropbox.com/s/58jm1992nddv13i/dnf.png?dl=1)
+
 # Licence
 
 The MIT License (MIT)

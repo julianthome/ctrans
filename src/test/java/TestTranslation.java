@@ -36,113 +36,79 @@ public class TestTranslation {
 
     final static Logger LOGGER = LoggerFactory.getLogger(TestTranslation.class);
 
-
-    String gfile = getClass().getResource("Logic.g4")
-            .getFile();
-
-
-	@Test
+    @Test
     public void testTranslation0() {
-
         String formula = "(((X1 and X2) or (X3 and X4)) or X5)(((X6 and X7) or (X8 " +
                 "and X9)" +
                 ") or X10)";
 
-        CTrans d = new CTrans(gfile);
-
-        d.translate(formula,TranslationTarget.CNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(formula, TranslationTarget.CNF);
     }
 
 
-	@Test
-    public void GhanemOneClause() {
-
+    @Test
+    public void oneClause() {
         String formula = "XXXXXXXXXXXXX1";
-
-        CTrans d = new CTrans(gfile);
-
-        d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
     }
-	
-	@Test
-    public void JulianNegatedClause() {
 
+    @Test
+    public void simpleNegated() {
         String formula = "not XXXXXXXXXXXXX1";
-
-        CTrans d = new CTrans(gfile);
-
-        d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
     }
-	
+
     @Test
     public void testConj0() {
         String formula = "(A or B) and (C and D)"; //"A and C or B and C"
-        CTrans d = new CTrans(gfile);
-        d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
     }
 
     @Test
     public void testConj1() {
         String formula = "(A and B) or (C and D)"; //"A and C or B and C"
-        CTrans d = new CTrans(gfile);
-        d.translate(formula,TranslationTarget.CNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(formula, TranslationTarget.CNF);
     }
 
     @Test
     public void testImplication() {
-        String formula = "(a implies d)";
-        CTrans d = new CTrans(gfile);
-        d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
+        Ast a = CTrans.INSTANCE.translate("a implies d", TranslationTarget.DNF);
+        LOGGER.debug(a.toDot());
     }
 
     @Test
     public void testNegation0() {
         String formula = "not not not not a";
-        CTrans d = new CTrans(gfile);
-        d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
+        Ast a = CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        LOGGER.debug(a.toDot());
     }
 
     @Test
     public void testNegation1() {
         String formula = "not (a and not b)";
-        CTrans d = new CTrans(gfile);
-        d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
     }
 
     @Test
     public void testNegation2() {
         String formula = "not (a or b)";
-        CTrans d = new CTrans(gfile);
-        d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
     }
 
     @Test
     public void testXor() {
         String formula = "a xor b";
-        CTrans d = new CTrans(gfile);
-        Ast out = d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
-    }
-    
-    @Test
-    public void testImpl() {
-        String formula = "(a and c) implies b";
-        CTrans d = new CTrans(gfile);
-        Ast out = d.translate(formula,TranslationTarget.DNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
     }
 
     @Test
-    public void testBig(){
+    public void testImpl() {
+        String formula = "(a and c) implies b";
+        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+    }
+
+    @Test
+    public void testBig() {
         String s = "(( q ) and (( XXXXXXXXXXXXXXXXXXXXXX130  and  XXXXXXXXXXXXXXXXXXXXXX131 ) or " +
                 "( XXXXXXXXXXXXXXXXXXXXXX132  and  XXXXXXXXXXXXXXXXXXXXXX133 ) or ( XXXXXXXXXXXXXXXXXXXXXX134  and  XXXXXXXXXXXXXXXXXXXXXX135 ) or " +
                 "( XXXXXXXXXXXXXXXXXXXXXX143  and  XXXXXXXXXXXXXXXXXXXXXX144 ) or ( XXXXXXXXXXXXXXXXXXXXXX145  and  XXXXXXXXXXXXXXXXXXXXXX146 ) or " +
@@ -156,28 +122,21 @@ public class TestTranslation {
                 "( XXXXXXXXXXXXXXXXXXXXXX169  and  XXXXXXXXXXXXXXXXXXXXXX170 " +
                 "))))";
 
-        CTrans d = new CTrans(gfile);
-        Ast out = d.translate(s,TranslationTarget.DNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(s, TranslationTarget.DNF);
+
     }
-    
-    public void testNegation3(){
+
+    public void testNegation3() {
         String s = "(not X14) and ( X35  or  X36 )";
-        CTrans d = new CTrans(gfile);
-        Ast out = d.translate(s,TranslationTarget.DNF);
-        System.out.println();
+        CTrans.INSTANCE.translate(s, TranslationTarget.DNF);
     }
 
     @Test
-    public void testNegation4(){
+    public void testNegation4() {
         String s = "( a1  and  a2 ) or ((not  a3 ) and ( a4  or  a5 ))";
+        CTrans.INSTANCE.translate(s, TranslationTarget.DNF);
 
-        CTrans d = new CTrans(gfile);
-        Ast out = d.translate(s,TranslationTarget.DNF);
-        System.out.println();
     }
-
-
 
 
 }
