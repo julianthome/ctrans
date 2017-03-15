@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 public class Translator {
@@ -85,19 +84,18 @@ public class Translator {
     }
 
     private Pair<Expression, TranslationHandler> getActiveHandler
-            (Set<TranslationHandler> s,
-                                               ExpressionGraph eg, Expression e) {
+            (Set<TranslationHandler> s, ExpressionGraph eg, Expression e) {
 
         //LOGGER.debug("get active handler");
-        Set<TranslationHandler> ret = s.stream().filter(t -> t.isActive(eg, e))
-                .collect(Collectors
-                        .toSet());
 
-        if (ret.size() >= 1) {
-            return new Pair(e, ret.iterator().next());
-        } else {
+        try {
+            TranslationHandler th = s.stream().filter(t -> t.isActive(eg, e))
+                    .findFirst().get();
+            return new Pair(e, th);
+        } catch (NoSuchElementException x) {
             return null;
         }
+
     }
 
     private Pair<Expression, TranslationHandler> getNext
