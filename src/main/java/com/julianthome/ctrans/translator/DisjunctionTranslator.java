@@ -26,21 +26,22 @@
 
 package com.julianthome.ctrans.translator;
 
-import com.julianthome.ctrans.*;
-
+import com.julianthome.ctrans.Expression;
+import com.julianthome.ctrans.ExpressionGraph;
+import com.julianthome.ctrans.TranslationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.List;
 
-import static com.julianthome.ctrans.Expression.Kind.*;
-
+import static com.julianthome.ctrans.Expression.Kind.AND;
+import static com.julianthome.ctrans.Expression.Kind.OR;
 
 // Push disjunctions downwards
-public class ConjunctionTranslator extends TranslationHandler {
+public class DisjunctionTranslator extends TranslationHandler {
 
 
-    final static Logger LOGGER = LoggerFactory.getLogger(ConjunctionTranslator.class);
+    final static Logger LOGGER = LoggerFactory.getLogger(DisjunctionTranslator.class);
 
     @Override
     public boolean isActive(ExpressionGraph eg, Expression e) {
@@ -56,10 +57,11 @@ public class ConjunctionTranslator extends TranslationHandler {
         return false;
     }
 
+
     @Override
     public void translate(ExpressionGraph eg, Expression and) {
-        // push conjuntions downward
-        ConDisjunctionUtils.INSTANCE.translate(eg, and, OR, AND, OR);
+        // push disjunction downward
+        ConDisjunctionUtils.INSTANCE.translate(eg, and, AND, OR, AND);
     }
-
+    
 }

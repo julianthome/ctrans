@@ -45,9 +45,9 @@ public class CTrans {
 
     private GenericParser gp = null;
     private DefaultTreeListener dlist = null;
-    private Translator translator = null;
 
-    public CTrans(String grammar, TranslationTarget target) {
+
+    public CTrans(String grammar) {
 
         LOGGER.debug("load grammar file {}" + grammar);
 
@@ -69,11 +69,10 @@ public class CTrans {
             LOGGER.debug(e.getMessage());
             System.exit(-1);
         }
-        translator = new Translator(target);
     }
 
 
-    public Ast translate(String formula) {
+    public Ast translate(String formula, TranslationTarget target) {
         ExpressionGraph eg = null;
         LogicListener l = null;
 
@@ -97,7 +96,7 @@ public class CTrans {
             return dlist.getAst();
         }
 
-        translator.translate(eg);
+        Translator.getInstance(target).translate(eg);
 
         System.out.println("Constraint network");
         System.out.println(eg.toDot());

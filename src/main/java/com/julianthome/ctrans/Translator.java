@@ -26,10 +26,7 @@
 
 package com.julianthome.ctrans;
 
-import com.julianthome.ctrans.translator.ConjunctionTranslator;
-import com.julianthome.ctrans.translator.ImplicationTranslator;
-import com.julianthome.ctrans.translator.NegationTranslator;
-import com.julianthome.ctrans.translator.XorTranslator;
+import com.julianthome.ctrans.translator.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +43,29 @@ public class Translator {
     static Set<TranslationHandler> first = new LinkedHashSet<>();
     static Set<TranslationHandler> second = new LinkedHashSet<>();
 
+    private static Translator dnf;
+    private static Translator cnf;
 
-    public Translator(TranslationTarget target) {
+
+    public static Translator getInstance(TranslationTarget target) {
+        if(target == TranslationTarget.DNF) {
+            if(dnf == null)
+                dnf = new Translator(TranslationTarget.DNF);
+
+            return dnf;
+        } else {
+            assert target == TranslationTarget.CNF;
+
+            if(cnf == null)
+                cnf = new Translator(TranslationTarget.DNF);
+
+            return cnf;
+        }
+    }
+
+
+
+    private Translator(TranslationTarget target) {
         first.add(new XorTranslator());
         first.add(new ImplicationTranslator());
         second.add(new NegationTranslator());
@@ -55,8 +73,8 @@ public class Translator {
         if(target == TranslationTarget.DNF) {
             second.add(new ConjunctionTranslator());
         } else {
-            // not yet implemented
-            assert false;
+            assert target == TranslationTarget.CNF;
+            second.add(new DisjunctionTranslator());
         }
     }
 
