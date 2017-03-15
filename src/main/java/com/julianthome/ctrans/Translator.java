@@ -40,8 +40,8 @@ public class Translator {
 
     final static Logger LOGGER = LoggerFactory.getLogger(Translator.class);
 
-    static Set<TranslationHandler> first = new LinkedHashSet<>();
-    static Set<TranslationHandler> second = new LinkedHashSet<>();
+    private Set<TranslationHandler> first = new LinkedHashSet<>();
+    private Set<TranslationHandler> second = new LinkedHashSet<>();
 
     private static Translator dnf;
     private static Translator cnf;
