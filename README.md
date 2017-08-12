@@ -2,7 +2,25 @@
 Basic **C**onstraint **Trans**formation library
 
 # Status
-[![Build Status](https://travis-ci.org/julianthome/ctrans.svg?branch=master)](https://travis-ci.org/julianthome/ctrans.svg?branch=master) [![codecov](https://codecov.io/gh/julianthome/ctrans/branch/master/graph/badge.svg)](https://codecov.io/gh/julianthome/ctrans) [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.github.julianthome/ctrans/badge.svg)](http://www.javadoc.io/doc/com.github.julianthome/ctrans) [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)][licence]
+[![Language](http://img.shields.io/badge/language-java-brightgreen.svg)][language]
+[![Maven](https://maven-badges.herokuapp.com/maven-central/com.github.julianthome/ctrans/badge.svg)][maven]
+[![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.github.julianthome/ctrans/badge.svg)][javadoc]
+[![Linux Build Status](https://img.shields.io/travis/julianthome/ctrans/master.svg?label=Linux%20build)][travis]
+[![Windows Build status](https://img.shields.io/appveyor/ci/julianthome/ctrans/master.svg?label=Windows%20build)][appveyor]
+[![Test Coverage](https://codecov.io/gh/julianthome/ctrans/branch/master/graph/badge.svg)][coverage]
+[![Code Climate](https://codeclimate.com/github/julianthome/ctrans/badges/issue_count.svg)][codeclimate]
+
+[licence]: https://opensource.org/licenses/mit
+[language]: https://www.java.com
+[maven]: https://maven-badges.herokuapp.com/maven-central/com.github.julianthome/ctrans
+[javadoc]: http://www.javadoc.io/doc/com.github.julianthome/ctrans
+[travis]: https://travis-ci.org/julianthome/ctrans
+[appveyor]: https://ci.appveyor.com/project/julianthome/ctrans
+[codeclimate]: https://codeclimate.com/github/julianthome/ctrans
+[coverage]: https://codecov.io/gh/julianthome/ctrans
+
 
 # Background
 CTrans supports basic transformation rules as explained in [these
