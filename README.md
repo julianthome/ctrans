@@ -10,7 +10,6 @@ Basic **C**onstraint **Trans**formation library
 [![Linux Build Status](https://img.shields.io/travis/julianthome/ctrans/master.svg?label=Linux%20build)][travis]
 [![Windows Build status](https://img.shields.io/appveyor/ci/julianthome/ctrans/master.svg?label=Windows%20build)][appveyor]
 [![Test Coverage](https://codecov.io/gh/julianthome/ctrans/branch/master/graph/badge.svg)][coverage]
-[![Code Climate](https://codeclimate.com/github/julianthome/ctrans/badges/issue_count.svg)][codeclimate]
 
 [licence]: https://opensource.org/licenses/mit
 [language]: https://www.java.com
@@ -18,7 +17,6 @@ Basic **C**onstraint **Trans**formation library
 [javadoc]: http://www.javadoc.io/doc/com.github.julianthome/ctrans
 [travis]: https://travis-ci.org/julianthome/ctrans
 [appveyor]: https://ci.appveyor.com/project/julianthome/ctrans
-[codeclimate]: https://codeclimate.com/github/julianthome/ctrans
 [coverage]: https://codecov.io/gh/julianthome/ctrans
 
 
