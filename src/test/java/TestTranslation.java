@@ -29,7 +29,7 @@ import com.julianthome.ctrans.TranslationTarget;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.snt.inmemantlr.tree.Ast;
+import org.snt.inmemantlr.tree.ParseTree;
 
 public class TestTranslation {
 
@@ -72,14 +72,14 @@ public class TestTranslation {
 
     @Test
     public void testImplication() {
-        Ast a = CTrans.INSTANCE.translate("a implies d", TranslationTarget.DNF);
+        ParseTree a = CTrans.INSTANCE.translate("a implies d", TranslationTarget.DNF);
         LOGGER.debug(a.toDot());
     }
 
     @Test
     public void testNegation0() {
         String formula = "not not not not a";
-        Ast a = CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        ParseTree a = CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
         LOGGER.debug(a.toDot());
     }
 

@@ -28,14 +28,14 @@ package com.julianthome.ctrans;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.snt.inmemantlr.exceptions.AstProcessorException;
-import org.snt.inmemantlr.tree.Ast;
-import org.snt.inmemantlr.tree.AstNode;
-import org.snt.inmemantlr.tree.AstProcessor;
+import org.snt.inmemantlr.exceptions.ParseTreeProcessorException;
+import org.snt.inmemantlr.tree.ParseTree;
+import org.snt.inmemantlr.tree.ParseTreeNode;
+import org.snt.inmemantlr.tree.ParseTreeProcessor;
 
 
 public class LogicListener extends
-        AstProcessor<ExpressionGraph, Expression> {
+        ParseTreeProcessor<ExpressionGraph, Expression> {
 
     final static Logger LOGGER = LoggerFactory.getLogger(LogicListener.class);
 
@@ -46,7 +46,7 @@ public class LogicListener extends
      *
      * @param ast abstract syntax tree to process
      */
-    public LogicListener(Ast ast) {
+    public LogicListener(ParseTree ast) {
         super(ast);
         LOGGER.debug(ast.toDot());
     }
@@ -63,7 +63,7 @@ public class LogicListener extends
     }
 
     @Override
-    protected void process(AstNode n) throws AstProcessorException {
+    protected void process(ParseTreeNode n) throws ParseTreeProcessorException {
         LOGGER.debug("ID " + n.getId() + " " + n.getRule() + " " + n.getLabel());
 
         switch (n.getRule()) {

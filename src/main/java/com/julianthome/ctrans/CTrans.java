@@ -29,11 +29,12 @@ package com.julianthome.ctrans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snt.inmemantlr.GenericParser;
-import org.snt.inmemantlr.exceptions.AstProcessorException;
 import org.snt.inmemantlr.exceptions.CompilationException;
 import org.snt.inmemantlr.exceptions.IllegalWorkflowException;
+import org.snt.inmemantlr.exceptions.ParseTreeProcessorException;
+import org.snt.inmemantlr.exceptions.ParsingException;
 import org.snt.inmemantlr.listener.DefaultTreeListener;
-import org.snt.inmemantlr.tree.Ast;
+import org.snt.inmemantlr.tree.ParseTree;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,14 +76,17 @@ public enum CTrans {
     }
 
 
-    public Ast translate(String formula, TranslationTarget target) {
+    public ParseTree translate(String formula, TranslationTarget target) {
         ExpressionGraph eg = null;
         LogicListener l = null;
 
         try {
             gp.parse(formula);
-            l = new LogicListener(dlist.getAst());
+            l = new LogicListener(dlist.getParseTree());
         } catch (IllegalWorkflowException e) {
+            System.err.println("DNF transformer- intial parsing error");
+            return null;
+        } catch (ParsingException e) {
             System.err.println("DNF transformer- intial parsing error");
             return null;
         }
@@ -90,23 +94,25 @@ public enum CTrans {
         try {
             l.process();
             eg = l.getResult();
-        } catch (AstProcessorException e) {
+        } catch (ParseTreeProcessorException e) {
             System.err.println("DNF transformer- network building error");
-            return dlist.getAst();
+            return dlist.getParseTree();
         }
 
         Translator.getInstance(target).translate(eg);
 
         String s = eg.serialize();
 
-        Ast dnfast = null;
+        ParseTree dnfast = null;
         try {
             gp.parse(s);
-            dnfast = dlist.getAst();
+            dnfast = dlist.getParseTree();
         } catch (IllegalWorkflowException e) {
             System.err.println("DNF transformer- transformation error");
-            return dlist.getAst();
-
+            return dlist.getParseTree();
+        } catch (ParsingException e) {
+            System.err.println("DNF transformer- transformation error");
+            return dlist.getParseTree();
         }
 
         return dnfast;
