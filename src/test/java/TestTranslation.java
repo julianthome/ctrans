@@ -26,7 +26,8 @@
 
 import com.julianthome.ctrans.CTrans;
 import com.julianthome.ctrans.TranslationTarget;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snt.inmemantlr.tree.ParseTree;
@@ -42,69 +43,87 @@ public class TestTranslation {
                 "and X9)" +
                 ") or X10)";
 
-        CTrans.INSTANCE.translate(formula, TranslationTarget.CNF);
+        Assertions.assertNull(CTrans.INSTANCE.translate(formula, TranslationTarget
+                .CNF));
     }
+
+    @Test
+    public void xor() {
+        String formula = "a xor b";
+        ParseTree pt = CTrans.INSTANCE.translate(formula, TranslationTarget
+                .CNF);
+        LOGGER.info(pt.toDot());
+    }
+
 
 
     @Test
     public void oneClause() {
         String formula = "XXXXXXXXXXXXX1";
-        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(formula,
+                TranslationTarget.DNF));
     }
 
     @Test
     public void simpleNegated() {
         String formula = "not XXXXXXXXXXXXX1";
-        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(formula,
+                TranslationTarget.DNF));
     }
 
     @Test
     public void testConj0() {
         String formula = "(A or B) and (C and D)"; //"A and C or B and C"
-        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(formula,
+                TranslationTarget.DNF));
     }
 
     @Test
     public void testConj1() {
         String formula = "(A and B) or (C and D)"; //"A and C or B and C"
-        CTrans.INSTANCE.translate(formula, TranslationTarget.CNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(formula,
+                TranslationTarget.CNF));
     }
 
     @Test
     public void testImplication() {
         ParseTree a = CTrans.INSTANCE.translate("a implies d", TranslationTarget.DNF);
-        LOGGER.debug(a.toDot());
+        Assertions.assertNotNull(a);
     }
 
     @Test
     public void testNegation0() {
         String formula = "not not not not a";
         ParseTree a = CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
-        LOGGER.debug(a.toDot());
+        Assertions.assertNotNull(a);
     }
 
     @Test
     public void testNegation1() {
         String formula = "not (a and not b)";
-        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(formula, TranslationTarget
+                .DNF));
     }
 
     @Test
     public void testNegation2() {
         String formula = "not (a or b)";
-        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(formula,
+                TranslationTarget.DNF));
     }
 
     @Test
     public void testXor() {
         String formula = "a xor b";
-        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(formula,
+                TranslationTarget.DNF));
     }
 
     @Test
     public void testImpl() {
         String formula = "(a and c) implies b";
-        CTrans.INSTANCE.translate(formula, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(formula,
+                TranslationTarget.DNF));
     }
 
     @Test
@@ -122,21 +141,30 @@ public class TestTranslation {
                 "( XXXXXXXXXXXXXXXXXXXXXX169  and  XXXXXXXXXXXXXXXXXXXXXX170 " +
                 "))))";
 
-        CTrans.INSTANCE.translate(s, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(s,
+                TranslationTarget.DNF));
 
     }
 
     public void testNegation3() {
         String s = "(not X14) and ( X35  or  X36 )";
-        CTrans.INSTANCE.translate(s, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(s,
+                TranslationTarget.DNF));
     }
 
     @Test
     public void testNegation4() {
         String s = "( a1  and  a2 ) or ((not  a3 ) and ( a4  or  a5 ))";
-        CTrans.INSTANCE.translate(s, TranslationTarget.DNF);
+        Assertions.assertNotNull(CTrans.INSTANCE.translate(s,
+                TranslationTarget.DNF));
 
     }
 
+    @Test
+    public void testNegatio5() {
+        String s = "(((a and (not b)) and (not c)) and (not d)) or c";
+        ParseTree pt = CTrans.INSTANCE.translate(s, TranslationTarget.CNF);
+        Assertions.assertNotNull(pt);
+    }
 
 }
