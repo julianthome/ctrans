@@ -51,7 +51,7 @@ public class TestTranslation {
     public void xor() {
         String formula = "a xor b";
         ParseTree pt = CTrans.INSTANCE.translate(formula, TranslationTarget
-                .CNF);
+                .DNF);
         LOGGER.info(pt.toDot());
     }
 

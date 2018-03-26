@@ -116,6 +116,8 @@ public class Translator {
         loop(eg, first);
         // CN contains only disjunction, conjunction or negation
         loop(eg, second);
+
+        LOGGER.debug(eg.toDot());
     }
 
 
