@@ -30,7 +30,7 @@ public class Expression {
 
     private int id = 0;
 
-    public static int i = 0;
+    private static int i = 0;
 
     public enum Kind {
         ATOM(""),
